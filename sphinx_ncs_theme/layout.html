@@ -6,3 +6,27 @@
 {% block extrahead %}
   <link rel="shortcut icon" href="{{ pathto('_static/images/favicon.ico', 1) }}"/>
 {% endblock %}
+{% block menu %}
+  {%- for name, config in theme_docsets_before.items() %}
+  {# FIXME: nrf uses 'ncs' as CSS class, others just the name #}
+  {%- set css_class = "ncs" if name == "nrf" else name %}
+  <div class="rst-other-version {{ css_class }}">
+    <span class="fa fa-caret-down" style="float: right; color: #fff; margin-top: 14px; margin-right: 10px;"></span>
+    <a href="{{ pathto('', 1) }}../{{ name }}/{{ config[1] }}.html">{{ config[0] }}</a>
+  </div>
+  {%- endfor %}
+  {%- set css_class = "ncs" if name == "nrf" else theme_docset_current[1] %}
+  <div class="rst-other-version {{ css_class }}">
+    <span class="fa fa-caret-right" style="float: right; color: #fff; margin-top: 14px; margin-right: 10px;"></span>
+    <a href="{{ pathto('', 1) }}{{ theme_docset_current[0][1] }}.html">{{ theme_docset_current[0][0] }}</a>
+  </div>
+  {{ super() }}
+  {%- for name, config in theme_docsets_after.items() %}
+  {# FIXME: nrf uses 'ncs' as CSS class, others just the name #}
+  {%- set css_class = "ncs" if name == "nrf" else name %}
+  <div class="rst-other-version {{ css_class }}">
+    <span class="fa fa-caret-down" style="float: right; color: #fff; margin-top: 14px; margin-right: 10px;"></span>
+    <a href="{{ pathto('', 1) }}../{{ name }}/{{ config[1] }}.html">{{ config[0] }}</a>
+  </div>
+  {%- endfor %}
+{% endblock %}
